@@ -1,0 +1,12 @@
+#Install the expo-cli
+npm install --global expo-cli
+
+#Create new project
+expo init my-app
+
+#
+cd my-app
+
+#
+expo start
+
