@@ -1,0 +1,19 @@
+#Create a project named my-app
+expo init my-app
+#Navigate to the project directory
+cd my-app
+
+#Start
+expo start
+
+#React Navigation5
+npm install @react-navigation/native
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+npx pod-install ios
+
+#CraeteStackNavigator
+npm install @react-navigation/stack
+
+#createBottomTabNavigator
+npm install @react-navigation/bottom-tabs
