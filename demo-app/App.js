@@ -1,8 +1,42 @@
 import React from 'react';
 import { Button, Dimensions, StyleSheet, Text, Image, TextInput, View, ScrollView, FlatList } from 'react-native';
 
+import { widthToDp, heightToDp, isOrientation, removeOrientation, getDynamicStyles } from './Dimen'
 
 const { height } = Dimensions.get('window');
+
+function ResponsiveComponent() {
+  return (
+    <View style={styles.container}>
+
+      <View style={styles.top}>
+        <View style={styles.profile}></View>
+      </View>
+
+
+      <View style={styles.center}></View>
+
+      <View style={styles.bottom}>
+        <View style={styles.bottomItem}>
+          <View style={styles.bottomItemInner}></View>
+        </View>
+
+        <View style={styles.bottomItem}>
+          <View style={styles.bottomItemInner}></View>
+        </View>
+
+        <View style={styles.bottomItem}>
+          <View style={styles.bottomItemInner}></View>
+        </View>
+
+        <View style={styles.bottomItem}>
+          <View style={styles.bottomItemInner}></View>
+        </View>
+      </View>
+
+    </View>
+  );
+}
 
 class SecondComponent extends React.Component {
 
@@ -15,12 +49,12 @@ class SecondComponent extends React.Component {
 
   renderItem = ({ item }) => {
     return (
-      <View style={{flex:1, flexDirection:'row'}}>
-        <Image style={{width:100, height:100}}
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        <Image style={{ width: 100, height: 100 }}
           source={{ uri: item.image }}
         ></Image>
 
-        <View style={{flex:1, justifyContent:'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           <Text>{item.book_title}</Text>
           <Text>{item.author}</Text>
         </View>
@@ -113,17 +147,35 @@ class FirstClassComponent extends React.Component {
     const b = function () {
       return "Hello World";
     }
+
+
+
+    const ps = portraitStyles();
+    const ls = landscapeStyles();
+
     return (
       <View>
         <Text>First Class Component {a + 1} {b()}</Text>
         <Text>{this.props.txt}</Text>
         <Text style={styles.redSquare}></Text>
+
+
+        {/* Responsive */}
+        <View style={getDynamicStyles(ps.view, ls.view)}>
+          <Text style={getDynamicStyles(ps.text, ls.text)}>Hello</Text>
+        </View>
+
+
       </View>
     );
   }
 
   componentWillUnmount() {
+    removeOrientation();
+  }
 
+  componentDidMount() {
+    isOrientation(this);
   }
 
 }
@@ -135,6 +187,10 @@ export default class App extends React.Component {
   };
 
   render() {
+    return (
+      // <ResponsiveComponent/>
+      <FirstClassComponent />
+    );
     return (
       <View style={styles.container}>
 
@@ -174,13 +230,75 @@ export default class App extends React.Component {
   }
 }
 
+const portraitStyles = () => {
+  return StyleSheet.create({
+    text: {
+      fontSize: widthToDp('6%')
+    },
+    view: {
+      backgroundColor: 'lightblue'
+    }
+  });
+}
+
+const landscapeStyles = () => {
+  return StyleSheet.create({
+    text: {
+      fontSize: widthToDp('6%')
+    },
+    view: {
+      backgroundColor: 'red'
+    }
+  });
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
     //alignItems: 'center',
     //justifyContent: 'center',
   },
+  top: {
+    height: '45%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'yellow'
+  },
+  profile: {
+    width: 140,
+    height: 140,
+    borderRadius: 100,
+    borderWidth: 4,
+    borderColor: '#fff',
+    backgroundColor: '#eee'
+  },
+  center: {
+    height: '10%',
+    backgroundColor: '#7fbcac'
+  },
+  bottom: {
+    height: '45%',
+    backgroundColor: 'blue',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 5
+  },
+  bottomItem: {
+    width: '50%',
+    height: '50%',
+    backgroundColor: 'pink',
+    padding: 5
+  },
+  bottomItemInner: {
+    flex: 1,
+    backgroundColor: '#232323'
+  },
+
+  responsive: {
+    fontSize: 20
+  },
+
   redSquare: {
     width: 100,
     height: 100,

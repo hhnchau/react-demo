@@ -10,3 +10,5 @@ cd my-app
 #
 expo start
 
+#update package
+npm install
